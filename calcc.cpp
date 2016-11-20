@@ -640,59 +640,76 @@ Value *OverflowRoutine(int binOp,int pos, Value *arg1, Value *arg2){
 Value *DivRoutine(int binOp,int pos, Value *arg1, Value *arg2){
 	//if(opstack.empty()){cout << "empty" << endl;}
 	//opstack.pop();
-
-	//first condition
-	Value *arg2zero = Builder.CreateICmpEQ(arg2, ConstantInt::get(C,APInt(64,0)),"");
-
-	//second condition
-	Value *arg1min = Builder.CreateICmpEQ(arg1,ConstantInt::get(C,APInt::getSignedMinValue(64)), "");
-	Value *arg2neg1 = Builder.CreateICmpEQ(arg2, ConstantInt::get(C,APInt(64,-1)),"");
-	Value *check2 = Builder.CreateAnd(arg1min,arg2neg1,"");
-	
-	Value *trapval = ConstantInt::get(C,APInt(64,-1));// this value does not matter because we exit(-1) before this point
-	
-	//basic blocks
 	Function *f = Builder.GetInsertBlock()->getParent();
-	
+
 	BasicBlock *thenbb0 = BasicBlock::Create(C,"",f);
 	BasicBlock *elsebb0 = BasicBlock::Create(C,"");
-	BasicBlock *finalbb0 = BasicBlock::Create(C,"",f);
+	BasicBlock *finalbb0 = BasicBlock::Create(C,"");
+	
+	Value *trapval = ConstantInt::get(C,APInt(64,-1));// this value does not matter because we exit(-1) before this point
+	//first condition
+	Value *arg2zero = Builder.CreateICmpEQ(arg2, ConstantInt::get(C,APInt(64,0)),"");
+	Value *arg2zeroCond = Builder.CreateICmpEQ(arg2zero,ConstantInt::get(C,APInt(1,1)),"");
+	//basic blocks
+		
+	Builder.CreateCondBr(arg2zeroCond,thenbb0,elsebb0);
 
-	Builder.CreateCondBr(arg2zero,thenbb0,elsebb0);
 	//arg==0 is true
+	//thenbb0
 	Builder.SetInsertPoint(thenbb0);
 	std::vector<Value *> args;
 	args.push_back(ConstantInt::get(C,APInt(64,pos)));
 	Builder.CreateCall(of_error_call,args,""); // call external function
-
-	Builder.CreateBr(finalbb0);
+	
+	Builder.CreateBr(finalbb0);//jump to finalbb0 (in IR)
 	thenbb0 = Builder.GetInsertBlock();
+
 	f->getBasicBlockList().push_back(elsebb0);
+	//elsebb0
 	Builder.SetInsertPoint(elsebb0);
 	// basic blocks for the second condition inside elsebb0
 	BasicBlock *thenbb1 = BasicBlock::Create(C,"",f);
 	BasicBlock *elsebb1 = BasicBlock::Create(C,"");
-	BasicBlock *finalbb1 = BasicBlock::Create(C,"",f);
-	
+	BasicBlock *finalbb1 = BasicBlock::Create(C,"");
+
+	//2nd condition
+	Value *arg2neg1 = Builder.CreateICmpEQ(arg2, ConstantInt::get(C,APInt(64,-1)),"");
+	Value *arg1min = Builder.CreateICmpEQ(arg1,ConstantInt::get(C,APInt::getSignedMinValue(64)), "");
+	Value *check2 = Builder.CreateAnd(arg1min,arg2neg1,"");
+
 	Builder.CreateCondBr(check2,thenbb1,elsebb1);
+	
+	//f->getBasicBlockList().push_back(thenbb1);
+	//thenbb1
 	Builder.SetInsertPoint(thenbb1);
 	std::vector<Value *>args1;
-	args.push_back(ConstantInt::get(C,APInt(64,pos)));
-	Builder.CreateCall(of_error_call,args,"");
-	
-	//if no problems detected, do the usual division
+	args1.push_back(ConstantInt::get(C,APInt(64,pos)));
+	Builder.CreateCall(of_error_call,args1,"");
 	Builder.CreateBr(finalbb1);
 	thenbb1 = Builder.GetInsertBlock();
+
+
 	f->getBasicBlockList().push_back(elsebb1);
+	//elsebb1
+	//if no problems detected, do the usual division
 	Builder.SetInsertPoint(elsebb1);
 	Value *elsebb1val = Builder.CreateUDiv(arg1,arg2,"");
 	if(!elsebb1val) return nullptr;
-
+	
+	Builder.CreateBr(finalbb1);
+	elsebb1 = Builder.GetInsertBlock();
+	f->getBasicBlockList().push_back(finalbb1);
+	
+	//finalbb1
+	Builder.SetInsertPoint(finalbb1);
 	PHINode *phi1 = Builder.CreatePHI(Type::getInt64Ty(C),2,"");
 	phi1->addIncoming(trapval,thenbb1);
 	phi1->addIncoming(elsebb1val,elsebb1);
 
+	//jump back to the finalbb of the outer loop
 	Builder.CreateBr(finalbb0);
+	
+	//elsebb0
 	elsebb0 = Builder.GetInsertBlock();
 	f->getBasicBlockList().push_back(finalbb0);
 	Builder.SetInsertPoint(finalbb0);
