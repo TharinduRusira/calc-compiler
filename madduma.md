@@ -109,20 +109,205 @@ Original program `power.calc`
                      (seq (set (* m0 a0) m0)
                           (seq (set (- m1 1) m1) m0)))))
 
+****
+
+Original LLVM IR obtained by `./calcc -check < power.calc`
+   
+   
+    ModuleID = 'calc'
+    source_filename = "calc"
+    target triple = "x86_64-unknown-linux-gnu"
+
+    declare i64 @overflow_fail(i64)
+
+    define i64 @f(i64 %a0, i64 %a1, i64 %a2, i64 %a3, i64 %a4, i64 %a5) {
+    entry:
+      %m9 = alloca i64
+      %m8 = alloca i64
+      %m7 = alloca i64
+      %m6 = alloca i64
+      %m5 = alloca i64
+      %m4 = alloca i64
+      %m3 = alloca i64
+      %m2 = alloca i64
+      %m1 = alloca i64
+      %m0 = alloca i64
+      store i64 0, i64* %m0
+      store i64 0, i64* %m1
+      store i64 0, i64* %m2
+      store i64 0, i64* %m3
+      store i64 0, i64* %m4
+      store i64 0, i64* %m5
+      store i64 0, i64* %m6
+      store i64 0, i64* %m7
+      store i64 0, i64* %m8
+      store i64 0, i64* %m9
+      store i64 %a0, i64* %m0
+      store i64 %a1, i64* %m1
+      br label %0
+
+    ; <label>:0:                                      ; preds = %21, %entry
+      %1 = phi i64 [ 0, %entry ], [ %m04, %21 ]
+      %m11 = load i64, i64* %m1
+      %neqtmp = icmp ne i64 %m11, 1
+      %2 = icmp eq i1 %neqtmp, true
+      br i1 %2, label %4, label %3
+
+    ; <label>:3:                                      ; preds = %0
+      ret i64 %1
+
+    ; <label>:4:                                      ; preds = %0
+      %m02 = load i64, i64* %m0
+      %5 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %m02, i64 %a0)
+      %6 = extractvalue { i64, i1 } %5, 0
+      %7 = extractvalue { i64, i1 } %5, 1
+      %8 = icmp eq i1 %7, true
+      br i1 %8, label %9, label %11
+
+    ; <label>:9:                                      ; preds = %4
+      %10 = call i64 @overflow_fail(i64 120)
+      br label %12
+
+    ; <label>:11:                                     ; preds = %4
+      br label %12
+
+    ; <label>:12:                                     ; preds = %11, %9
+      %13 = phi i64 [ %6, %9 ], [ %6, %11 ]
+      store i64 %13, i64* %m0
+      %m13 = load i64, i64* %m1
+      %14 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %m13, i64 1)
+      %15 = extractvalue { i64, i1 } %14, 0
+      %16 = extractvalue { i64, i1 } %14, 1
+      %17 = icmp eq i1 %16, true
+      br i1 %17, label %18, label %20
+
+    ; <label>:18:                                     ; preds = %12
+      %19 = call i64 @overflow_fail(i64 167)
+      br label %21
+
+    ; <label>:20:                                     ; preds = %12
+      br label %21
+
+    ; <label>:21:                                     ; preds = %20, %18
+      %22 = phi i64 [ %15, %18 ], [ %15, %20 ]
+      store i64 %22, i64* %m1
+      %m04 = load i64, i64* %m0
+      br label %0
+    }
+
+    ; Function Attrs: nounwind readnone
+    declare { i64, i1 } @llvm.smul.with.overflow.i64(i64, i64) #0
+
+    ; Function Attrs: nounwind readnone
+    declare { i64, i1 } @llvm.ssub.with.overflow.i64(i64, i64) #0
+
+    attributes #0 = { nounwind readnone }
 
 
+We now evaluate the effect of major optimizations. 
+
+SROA replaces the long entry block with a loop to declare and initialize the 10 mutable variables.
+
+    define i64 @f(i64, i64, i64, i64, i64, i64) {
+    entry:
+      br label %whileEntry
+
+    whileEntry:                                       ; preds = %else3, %entry
+      %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %else3 ]
+      %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %else3 ]
+      %phiNode = phi i64 [ 0, %entry ], [ %7, %else3 ]
+      %ne = icmp ne i64 %Mutable1.0, 1
+      br i1 %ne, label %whileBody, label %whileExit
 
 
+Promote Memory to Register
+
+    define i64 @f(i64, i64, i64, i64, i64, i64) {
+
+    define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+
+Combine redundant instructions
+
+    %ne = icmp ne i64 %Mutable1.0, 1
+    br i1 %ne, label %whileBody, label %whileExit
+
+    %ne = icmp eq i64 %Mutable1.0, 1
+    br i1 %ne, label %whileExit, label %whileBody
+
+Simplify the CFG
+
+    whileEntry:                                       ; preds = %else3, %entry
+      %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %else3 ]
+      %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %else3 ]
+      %phiNode = phi i64 [ 0, %entry ], [ %7, %else3 ]
+  .
+  .
+  .
+
+      whileEntry:                                       ; preds = %else, %then1, %entry
+      %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+      %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+      %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  
+  ****
+Instead of jumping to %else3, directly jump to %WhileEntry 
+
+    br i1 %11, label %then1, label %else3
+.
+
+    br i1 %11, label %then1, label %whileEntry
+
+****
+As a result, we can eliminate the entire %else3 block from the code
+
+    br label %else3		
+    else3:                                            ; preds = %then1, %else	
 
 
+Simplify the CFG
 
+`call` replaced by `tail call`
+Eg.
 
+    %calltrap = call i64 @overflow_fail(i64 120)
+.
+  
+    %calltrap = tail call i64 @overflow_fail(i64 120)
 
+****
 
+Canonicalize natural loops
 
+    whileEntry:                                       ; preds = %else, %then1, %entry
+      %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+      %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+      %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  
+ .
+  
+      whileEntry:                                       ; preds = %whileEntry.backedge, %entry
+      %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %whileEntry.backedge ]
+      %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %whileEntry.backedge ]
+      %phiNode = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
 
+****
+    br i1 %11, label %then1, label %whileEntry		  
+.
 
+    br i1 %11, label %then1, label %whileEntry.backedge
+    
+ ****
+ new block introduced
+ 
+      br label %whileEntry.backedge
+      whileEntry.backedge:                              ; preds = %then1, %else
 
+Loop-Closed SSA Form Pass 
+
+      ret i64 %phiNode		  
+  ****
+      %phiNode.lcssa = phi i64 [ %phiNode, %whileEntry ]
+      ret i64 %phiNode.lcssa
 
 
 
