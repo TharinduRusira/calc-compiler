@@ -309,6 +309,28 @@ Loop-Closed SSA Form Pass
       %phiNode.lcssa = phi i64 [ %phiNode, %whileEntry ]
       ret i64 %phiNode.lcssa
 
+Global Value Numbering
+
+    whileExit.loopexit:                               ; preds = %whileEntry.backedge
+      %.lcssa = phi i64 [ %7, %whileEntry.backedge ]
+      br label %whileExit
+
+    whileExit:                                        ; preds = %whileExit.loopexit, %entry
+      %phiNode.lcssa = phi i64 [ 0, %entry ], [ %.lcssa, %whileExit.loopexit ]
+      ret i64 %phiNode.lcssa
+
+****
+
+
+    whileExit.loopexit:                               ; preds = %whileEntry.backedge
+      br label %whileExit
+
+    whileExit:                                        ; preds = %whileExit.loopexit, %entry
+      %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+      ret i64 %phiNode.lcssa
+
+
+
 
 
 
