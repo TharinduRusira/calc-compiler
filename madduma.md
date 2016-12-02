@@ -99,6 +99,8 @@ The following is a sequence of optimization applied on the LLVM IR by the LLVM o
   - Merge Duplicate Global Constants
   - Module Verifier
 
+This is the original order of the optimization passes but most of the optimizations do not perform useful transformations. In the following, we try to eleborate some optimizations and their purpose.
+
 ****
 
 Original program `power.calc`
@@ -206,7 +208,7 @@ Original LLVM IR obtained by `./calcc -check < power.calc`
 
 We now evaluate the effect of major optimizations. 
 
-SROA replaces the long entry block with a loop to declare and initialize the 10 mutable variables.
+SROA replaces the long `entry` block with a loop based `whileEntry` to declare and initialize the 10 mutable variables.
 
     define i64 @f(i64, i64, i64, i64, i64, i64) {
     entry:
@@ -226,13 +228,19 @@ Promote Memory to Register
 
     define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
 
+`local_unnamed_addr` flags that the address is not significant within the module but the content. See http://llvm.org/docs/LangRef.html
+
+
 Combine redundant instructions
+
+`eq` is substituted by `ne` and the branch targets are reordered accordingly. 
 
     %ne = icmp ne i64 %Mutable1.0, 1
     br i1 %ne, label %whileBody, label %whileExit
 
     %ne = icmp eq i64 %Mutable1.0, 1
     br i1 %ne, label %whileExit, label %whileBody
+
 
 Simplify the CFG
 
@@ -250,7 +258,7 @@ Simplify the CFG
       %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
   
   ****
-Instead of jumping to %else3, directly jump to %WhileEntry 
+Instead of jumping to %else3, directly jump to %WhileEntry. With this, `%else3` block is eliminated, hence the simplified CFG.
 
     br i1 %11, label %then1, label %else3
 .
@@ -258,7 +266,8 @@ Instead of jumping to %else3, directly jump to %WhileEntry
     br i1 %11, label %then1, label %whileEntry
 
 ****
-As a result, we can eliminate the entire %else3 block from the code
+
+As a result, we can eliminate the entire %else3 block from the code. It is observed that LLVM IR usually generates a lot of such bogus basic blocks that can be actually eliminated.
 
     br label %else3		
     else3:                                            ; preds = %then1, %else	
@@ -273,6 +282,10 @@ Eg.
 .
   
     %calltrap = tail call i64 @overflow_fail(i64 120)
+
+
+When used, `tail call` allows the callee to use caller's stack frame, consequently preventing potential stack overflows due to long recursive calls.
+
 
 ****
 
@@ -291,6 +304,7 @@ Canonicalize natural loops
       %phiNode = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
 
 ****
+
     br i1 %11, label %then1, label %whileEntry		  
 .
 
@@ -305,7 +319,9 @@ Canonicalize natural loops
 Loop-Closed SSA Form Pass 
 
       ret i64 %phiNode		  
+  
   ****
+  
       %phiNode.lcssa = phi i64 [ %phiNode, %whileEntry ]
       ret i64 %phiNode.lcssa
 
@@ -321,7 +337,6 @@ Global Value Numbering
 
 ****
 
-
     whileExit.loopexit:                               ; preds = %whileEntry.backedge
       br label %whileExit
 
@@ -329,10 +344,9 @@ Global Value Numbering
       %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
       ret i64 %phiNode.lcssa
 
+Transfers phi node `phi i64 [ %7, %whileEntry.backedge ]` from `whileExit.loopexit` block to `whileExit` block.
 
+****
 
-
-
-
-
-
+It is seen that some optimization passes are not contributing to a significant IR improvement. 
+Also, it can be observed that LLVM optimization passes follow a conservative order and do not take the effectiveness of each optimization into account. This area has a lot of potential for improvements. Also note that determining a proper/effective (ideally optimal) sequence of optimizations for a given application is non-trivial.
