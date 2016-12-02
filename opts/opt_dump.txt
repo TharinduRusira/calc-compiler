@@ -1,0 +1,3583 @@
+WARNING: You're attempting to print out a bitcode file.
+This is inadvisable as it may cause display problems. If
+you REALLY want to taste LLVM bitcode first-hand, you
+can force output with the `-f' option.
+
+*** IR Dump After Module Verifier ***
+define i64 @f(i64, i64, i64, i64, i64, i64) {
+entry:
+  %Mutable0 = alloca i64
+  store i64 0, i64* %Mutable0
+  %Mutable1 = alloca i64
+  store i64 0, i64* %Mutable1
+  %Mutable2 = alloca i64
+  store i64 0, i64* %Mutable2
+  %Mutable3 = alloca i64
+  store i64 0, i64* %Mutable3
+  %Mutable4 = alloca i64
+  store i64 0, i64* %Mutable4
+  %Mutable5 = alloca i64
+  store i64 0, i64* %Mutable5
+  %Mutable6 = alloca i64
+  store i64 0, i64* %Mutable6
+  %Mutable7 = alloca i64
+  store i64 0, i64* %Mutable7
+  %Mutable8 = alloca i64
+  store i64 0, i64* %Mutable8
+  %Mutable9 = alloca i64
+  store i64 0, i64* %Mutable9
+  store i64 %0, i64* %Mutable0
+  store i64 %1, i64* %Mutable1
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else3, %entry
+  %phiNode = phi i64 [ 0, %entry ], [ %15, %else3 ]
+  %6 = load i64, i64* %Mutable1
+  %ne = icmp ne i64 %6, 1
+  br i1 %ne, label %whileBody, label %whileExit
+
+whileBody:                                        ; preds = %whileEntry
+  %7 = load i64, i64* %Mutable0
+  %8 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %7, i64 %0)
+  %9 = extractvalue { i64, i1 } %8, 0
+  %10 = extractvalue { i64, i1 } %8, 1
+  br i1 %10, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  store i64 %9, i64* %Mutable0
+  %11 = load i64, i64* %Mutable1
+  %12 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %11, i64 1)
+  %13 = extractvalue { i64, i1 } %12, 0
+  %14 = extractvalue { i64, i1 } %12, 1
+  br i1 %14, label %then1, label %else3
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %else3
+
+else3:                                            ; preds = %then1, %else
+  store i64 %13, i64* %Mutable1
+  %15 = load i64, i64* %Mutable0
+  br label %whileEntry
+}
+*** IR Dump After Simplify the CFG ***
+define i64 @f(i64, i64, i64, i64, i64, i64) {
+entry:
+  %Mutable0 = alloca i64
+  store i64 0, i64* %Mutable0
+  %Mutable1 = alloca i64
+  store i64 0, i64* %Mutable1
+  %Mutable2 = alloca i64
+  store i64 0, i64* %Mutable2
+  %Mutable3 = alloca i64
+  store i64 0, i64* %Mutable3
+  %Mutable4 = alloca i64
+  store i64 0, i64* %Mutable4
+  %Mutable5 = alloca i64
+  store i64 0, i64* %Mutable5
+  %Mutable6 = alloca i64
+  store i64 0, i64* %Mutable6
+  %Mutable7 = alloca i64
+  store i64 0, i64* %Mutable7
+  %Mutable8 = alloca i64
+  store i64 0, i64* %Mutable8
+  %Mutable9 = alloca i64
+  store i64 0, i64* %Mutable9
+  store i64 %0, i64* %Mutable0
+  store i64 %1, i64* %Mutable1
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else3, %entry
+  %phiNode = phi i64 [ 0, %entry ], [ %15, %else3 ]
+  %6 = load i64, i64* %Mutable1
+  %ne = icmp ne i64 %6, 1
+  br i1 %ne, label %whileBody, label %whileExit
+
+whileBody:                                        ; preds = %whileEntry
+  %7 = load i64, i64* %Mutable0
+  %8 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %7, i64 %0)
+  %9 = extractvalue { i64, i1 } %8, 0
+  %10 = extractvalue { i64, i1 } %8, 1
+  br i1 %10, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  store i64 %9, i64* %Mutable0
+  %11 = load i64, i64* %Mutable1
+  %12 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %11, i64 1)
+  %13 = extractvalue { i64, i1 } %12, 0
+  %14 = extractvalue { i64, i1 } %12, 1
+  br i1 %14, label %then1, label %else3
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %else3
+
+else3:                                            ; preds = %then1, %else
+  store i64 %13, i64* %Mutable1
+  %15 = load i64, i64* %Mutable0
+  br label %whileEntry
+}
+*** IR Dump After SROA ***
+define i64 @f(i64, i64, i64, i64, i64, i64) {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else3, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %else3 ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %else3 ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %else3 ]
+  %ne = icmp ne i64 %Mutable1.0, 1
+  br i1 %ne, label %whileBody, label %whileExit
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %else3
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %else3
+
+else3:                                            ; preds = %then1, %else
+  br label %whileEntry
+}
+*** IR Dump After Early CSE ***
+define i64 @f(i64, i64, i64, i64, i64, i64) {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else3, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %else3 ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %else3 ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %else3 ]
+  %ne = icmp ne i64 %Mutable1.0, 1
+  br i1 %ne, label %whileBody, label %whileExit
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %else3
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %else3
+
+else3:                                            ; preds = %then1, %else
+  br label %whileEntry
+}
+*** IR Dump After Early GVN Hoisting of Expressions ***
+define i64 @f(i64, i64, i64, i64, i64, i64) {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else3, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %else3 ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %else3 ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %else3 ]
+  %ne = icmp ne i64 %Mutable1.0, 1
+  br i1 %ne, label %whileBody, label %whileExit
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %else3
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %else3
+
+else3:                                            ; preds = %then1, %else
+  br label %whileEntry
+}
+*** IR Dump After Lower 'expect' Intrinsics ***
+define i64 @f(i64, i64, i64, i64, i64, i64) {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else3, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %else3 ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %else3 ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %else3 ]
+  %ne = icmp ne i64 %Mutable1.0, 1
+  br i1 %ne, label %whileBody, label %whileExit
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %else3
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %else3
+
+else3:                                            ; preds = %then1, %else
+  br label %whileEntry
+}
+*** IR Dump After Force set function attributes ***; ModuleID = 'output/power.calc.ll'
+source_filename = "output/power.calc.ll"
+target triple = "x86_64-unknown-linux-gnu"
+
+define i64 @f(i64, i64, i64, i64, i64, i64) {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else3, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %else3 ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %else3 ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %else3 ]
+  %ne = icmp ne i64 %Mutable1.0, 1
+  br i1 %ne, label %whileBody, label %whileExit
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %else3
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %else3
+
+else3:                                            ; preds = %then1, %else
+  br label %whileEntry
+}
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.smul.with.overflow.i64(i64, i64) #0
+
+declare i64 @overflow_fail(i64)
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.ssub.with.overflow.i64(i64, i64) #0
+
+attributes #0 = { nounwind readnone }
+*** IR Dump After Infer set function attributes ***; ModuleID = 'output/power.calc.ll'
+source_filename = "output/power.calc.ll"
+target triple = "x86_64-unknown-linux-gnu"
+
+define i64 @f(i64, i64, i64, i64, i64, i64) {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else3, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %else3 ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %else3 ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %else3 ]
+  %ne = icmp ne i64 %Mutable1.0, 1
+  br i1 %ne, label %whileBody, label %whileExit
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %else3
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %else3
+
+else3:                                            ; preds = %then1, %else
+  br label %whileEntry
+}
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.smul.with.overflow.i64(i64, i64) #0
+
+declare i64 @overflow_fail(i64)
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.ssub.with.overflow.i64(i64, i64) #0
+
+attributes #0 = { nounwind readnone }
+*** IR Dump After Interprocedural Sparse Conditional Constant Propagation ***; ModuleID = 'output/power.calc.ll'
+source_filename = "output/power.calc.ll"
+target triple = "x86_64-unknown-linux-gnu"
+
+define i64 @f(i64, i64, i64, i64, i64, i64) {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else3, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %else3 ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %else3 ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %else3 ]
+  %ne = icmp ne i64 %Mutable1.0, 1
+  br i1 %ne, label %whileBody, label %whileExit
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %else3
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %else3
+
+else3:                                            ; preds = %then1, %else
+  br label %whileEntry
+}
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.smul.with.overflow.i64(i64, i64) #0
+
+declare i64 @overflow_fail(i64)
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.ssub.with.overflow.i64(i64, i64) #0
+
+attributes #0 = { nounwind readnone }
+*** IR Dump After Global Variable Optimizer ***; ModuleID = 'output/power.calc.ll'
+source_filename = "output/power.calc.ll"
+target triple = "x86_64-unknown-linux-gnu"
+
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else3, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %else3 ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %else3 ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %else3 ]
+  %ne = icmp ne i64 %Mutable1.0, 1
+  br i1 %ne, label %whileBody, label %whileExit
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %else3
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %else3
+
+else3:                                            ; preds = %then1, %else
+  br label %whileEntry
+}
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.smul.with.overflow.i64(i64, i64) #0
+
+declare i64 @overflow_fail(i64) local_unnamed_addr
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.ssub.with.overflow.i64(i64, i64) #0
+
+attributes #0 = { nounwind readnone }
+*** IR Dump After Promote Memory to Register ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else3, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %else3 ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %else3 ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %else3 ]
+  %ne = icmp ne i64 %Mutable1.0, 1
+  br i1 %ne, label %whileBody, label %whileExit
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %else3
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %else3
+
+else3:                                            ; preds = %then1, %else
+  br label %whileEntry
+}
+*** IR Dump After Dead Argument Elimination ***; ModuleID = 'output/power.calc.ll'
+source_filename = "output/power.calc.ll"
+target triple = "x86_64-unknown-linux-gnu"
+
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else3, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %else3 ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %else3 ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %else3 ]
+  %ne = icmp ne i64 %Mutable1.0, 1
+  br i1 %ne, label %whileBody, label %whileExit
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %else3
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %else3
+
+else3:                                            ; preds = %then1, %else
+  br label %whileEntry
+}
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.smul.with.overflow.i64(i64, i64) #0
+
+declare i64 @overflow_fail(i64) local_unnamed_addr
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.ssub.with.overflow.i64(i64, i64) #0
+
+attributes #0 = { nounwind readnone }
+*** IR Dump After Combine redundant instructions ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else3, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %else3 ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %else3 ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %else3 ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %else3
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %else3
+
+else3:                                            ; preds = %then1, %else
+  br label %whileEntry
+}
+*** IR Dump After Simplify the CFG ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else, %then1, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %whileEntry
+}
+*** IR Dump After PGOIndirectCallPromotion ***; ModuleID = 'output/power.calc.ll'
+source_filename = "output/power.calc.ll"
+target triple = "x86_64-unknown-linux-gnu"
+
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else, %then1, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %whileEntry
+}
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.smul.with.overflow.i64(i64, i64) #0
+
+declare i64 @overflow_fail(i64) local_unnamed_addr
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.ssub.with.overflow.i64(i64, i64) #0
+
+attributes #0 = { nounwind readnone }
+*** IR Dump After Remove unused exception handling info ***
+Printing <null> Function
+*** IR Dump After Function Integration/Inlining ***
+Printing <null> Function
+*** IR Dump After Deduce function attributes ***
+Printing <null> Function
+*** IR Dump After Remove unused exception handling info ***
+declare i64 @overflow_fail(i64) local_unnamed_addr
+*** IR Dump After Function Integration/Inlining ***
+declare i64 @overflow_fail(i64) local_unnamed_addr
+*** IR Dump After Deduce function attributes ***
+declare i64 @overflow_fail(i64) local_unnamed_addr
+*** IR Dump After Remove unused exception handling info ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else, %then1, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %whileEntry
+}
+*** IR Dump After Function Integration/Inlining ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else, %then1, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %whileEntry
+}
+*** IR Dump After Deduce function attributes ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else, %then1, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %whileEntry
+}
+*** IR Dump After SROA ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else, %then1, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %whileEntry
+}
+*** IR Dump After Early CSE ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else, %then1, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %whileEntry
+}
+*** IR Dump After Speculatively execute instructions if target has divergent branches ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else, %then1, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %whileEntry
+}
+*** IR Dump After Jump Threading ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else, %then1, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %whileEntry
+}
+*** IR Dump After Value Propagation ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else, %then1, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %whileEntry
+}
+*** IR Dump After Simplify the CFG ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else, %then1, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %whileEntry
+}
+*** IR Dump After Combine redundant instructions ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else, %then1, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry
+
+then1:                                            ; preds = %else
+  %calltrap2 = call i64 @overflow_fail(i64 166)
+  br label %whileEntry
+}
+*** IR Dump After Tail Call Elimination ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else, %then1, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry
+}
+*** IR Dump After Simplify the CFG ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else, %then1, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry
+}
+*** IR Dump After Reassociate expressions ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %else, %then1, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %then1 ], [ %10, %else ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %then1 ], [ %7, %else ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry
+}
+*** IR Dump After Canonicalize natural loops ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %whileEntry.backedge, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %whileEntry.backedge ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %whileEntry.backedge ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  ret i64 %phiNode
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  br label %whileEntry
+}
+*** IR Dump After Loop-Closed SSA Form Pass ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  br label %whileEntry
+
+whileEntry:                                       ; preds = %whileEntry.backedge, %entry
+  %Mutable1.0 = phi i64 [ %1, %entry ], [ %10, %whileEntry.backedge ]
+  %Mutable0.0 = phi i64 [ %0, %entry ], [ %7, %whileEntry.backedge ]
+  %phiNode = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
+  %ne = icmp eq i64 %Mutable1.0, 1
+  br i1 %ne, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %whileEntry
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.0, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry
+  %phiNode.lcssa = phi i64 [ %phiNode, %whileEntry ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.0, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  br label %whileEntry
+}
+*** IR Dump After Rotate Loops ***
+whileBody:                                        ; preds = %whileBody.lr.ph, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %0, %whileBody.lr.ph ], [ %7, %whileEntry.backedge ]
+  %Mutable1.04 = phi i64 [ %1, %whileBody.lr.ph ], [ %10, %whileEntry.backedge ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileEntry.whileExit_crit_edge, label %whileBody
+*** IR Dump After Loop Invariant Code Motion ***
+whileBody:                                        ; preds = %whileBody.lr.ph, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %0, %whileBody.lr.ph ], [ %7, %whileEntry.backedge ]
+  %Mutable1.04 = phi i64 [ %1, %whileBody.lr.ph ], [ %10, %whileEntry.backedge ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileEntry.whileExit_crit_edge, label %whileBody
+*** IR Dump After Unswitch loops ***
+whileBody:                                        ; preds = %whileBody.lr.ph, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %0, %whileBody.lr.ph ], [ %7, %whileEntry.backedge ]
+  %Mutable1.04 = phi i64 [ %1, %whileBody.lr.ph ], [ %10, %whileEntry.backedge ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileEntry.whileExit_crit_edge, label %whileBody
+*** IR Dump After Simplify the CFG ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %entry, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %entry ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %entry ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry.backedge, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit, label %whileBody
+}
+*** IR Dump After Combine redundant instructions ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %entry, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %entry ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %entry ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry.backedge, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit, label %whileBody
+}
+*** IR Dump After Canonicalize natural loops ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Loop-Closed SSA Form Pass ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  %.lcssa = phi i64 [ %7, %whileEntry.backedge ]
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %.lcssa, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Induction Variable Simplification ***
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+*** IR Dump After Recognize loop idioms ***
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+*** IR Dump After Delete dead loops ***
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+*** IR Dump After Unroll loops ***
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+*** IR Dump After MergedLoadStoreMotion ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  %.lcssa = phi i64 [ %7, %whileEntry.backedge ]
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %.lcssa, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Global Value Numbering ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After MemCpy Optimization ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Sparse Conditional Constant Propagation ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Demanded bits analysis ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Bit-Tracking Dead Code Elimination ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Combine redundant instructions ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Jump Threading ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %entry, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %entry ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %entry ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry.backedge, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit, label %whileBody
+}
+*** IR Dump After Value Propagation ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %entry, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %entry ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %entry ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry.backedge, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit, label %whileBody
+}
+*** IR Dump After Dead Store Elimination ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %entry, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %entry ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %entry ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry.backedge, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit, label %whileBody
+}
+*** IR Dump After Canonicalize natural loops ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Loop-Closed SSA Form Pass ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  %.lcssa = phi i64 [ %7, %whileEntry.backedge ]
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %.lcssa, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Loop Invariant Code Motion ***
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+*** IR Dump After Aggressive Dead Code Elimination ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  %.lcssa = phi i64 [ %7, %whileEntry.backedge ]
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %.lcssa, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Simplify the CFG ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %entry, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %entry ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %entry ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry.backedge, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit, label %whileBody
+}
+*** IR Dump After Combine redundant instructions ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %entry, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %entry ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %entry ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry.backedge, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit, label %whileBody
+}
+*** IR Dump After Remove unused exception handling info ***
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.smul.with.overflow.i64(i64, i64) #0
+*** IR Dump After Function Integration/Inlining ***
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.smul.with.overflow.i64(i64, i64) #0
+*** IR Dump After Deduce function attributes ***
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.smul.with.overflow.i64(i64, i64) #0
+*** IR Dump After Remove unused exception handling info ***
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.ssub.with.overflow.i64(i64, i64) #0
+*** IR Dump After Function Integration/Inlining ***
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.ssub.with.overflow.i64(i64, i64) #0
+*** IR Dump After Deduce function attributes ***
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.ssub.with.overflow.i64(i64, i64) #0
+*** IR Dump After Remove unused exception handling info ***
+Printing <null> Function
+*** IR Dump After Function Integration/Inlining ***
+Printing <null> Function
+*** IR Dump After Deduce function attributes ***
+Printing <null> Function
+*** IR Dump After A No-Op Barrier Pass ***; ModuleID = 'output/power.calc.ll'
+source_filename = "output/power.calc.ll"
+target triple = "x86_64-unknown-linux-gnu"
+
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %entry, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %entry ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %entry ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry.backedge, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit, label %whileBody
+}
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.smul.with.overflow.i64(i64, i64) #0
+
+declare i64 @overflow_fail(i64) local_unnamed_addr
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.ssub.with.overflow.i64(i64, i64) #0
+
+attributes #0 = { nounwind readnone }
+*** IR Dump After Eliminate Available Externally Globals ***; ModuleID = 'output/power.calc.ll'
+source_filename = "output/power.calc.ll"
+target triple = "x86_64-unknown-linux-gnu"
+
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %entry, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %entry ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %entry ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry.backedge, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit, label %whileBody
+}
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.smul.with.overflow.i64(i64, i64) #0
+
+declare i64 @overflow_fail(i64) local_unnamed_addr
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.ssub.with.overflow.i64(i64, i64) #0
+
+attributes #0 = { nounwind readnone }
+*** IR Dump After Deduce function attributes in RPO ***; ModuleID = 'output/power.calc.ll'
+source_filename = "output/power.calc.ll"
+target triple = "x86_64-unknown-linux-gnu"
+
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %entry, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %entry ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %entry ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry.backedge, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit, label %whileBody
+}
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.smul.with.overflow.i64(i64, i64) #0
+
+declare i64 @overflow_fail(i64) local_unnamed_addr
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.ssub.with.overflow.i64(i64, i64) #0
+
+attributes #0 = { nounwind readnone }
+*** IR Dump After Float to int ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %entry, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %entry ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %entry ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry.backedge, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit, label %whileBody
+}
+*** IR Dump After Canonicalize natural loops ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Loop-Closed SSA Form Pass ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  %.lcssa = phi i64 [ %7, %whileEntry.backedge ]
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %.lcssa, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Rotate Loops ***
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+*** IR Dump After Loop Distribition ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  %.lcssa = phi i64 [ %7, %whileEntry.backedge ]
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %.lcssa, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Canonicalize natural loops ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  %.lcssa = phi i64 [ %7, %whileEntry.backedge ]
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %.lcssa, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Loop-Closed SSA Form Pass ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  %.lcssa = phi i64 [ %7, %whileEntry.backedge ]
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %.lcssa, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Demanded bits analysis ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  %.lcssa = phi i64 [ %7, %whileEntry.backedge ]
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %.lcssa, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Loop Vectorization ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  %.lcssa = phi i64 [ %7, %whileEntry.backedge ]
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %.lcssa, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Canonicalize natural loops ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  %.lcssa = phi i64 [ %7, %whileEntry.backedge ]
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %.lcssa, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Loop Load Elimination ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  %.lcssa = phi i64 [ %7, %whileEntry.backedge ]
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %.lcssa, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Combine redundant instructions ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Demanded bits analysis ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After SLP Vectorizer ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Simplify the CFG ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %entry, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %entry ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %entry ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry.backedge, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit, label %whileBody
+}
+*** IR Dump After Combine redundant instructions ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody
+
+whileBody:                                        ; preds = %entry, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %entry ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %entry ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit:                                        ; preds = %whileEntry.backedge, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileEntry.backedge ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit, label %whileBody
+}
+*** IR Dump After Canonicalize natural loops ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Loop-Closed SSA Form Pass ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  %.lcssa = phi i64 [ %7, %whileEntry.backedge ]
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %.lcssa, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Unroll loops ***
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+*** IR Dump After Combine redundant instructions ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Canonicalize natural loops ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Loop-Closed SSA Form Pass ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  %.lcssa = phi i64 [ %7, %whileEntry.backedge ]
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %.lcssa, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Loop Invariant Code Motion ***
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+*** IR Dump After Remove redundant instructions ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Alignment from assumptions ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+*** IR Dump After Strip Unused Function Prototypes ***; ModuleID = 'output/power.calc.ll'
+source_filename = "output/power.calc.ll"
+target triple = "x86_64-unknown-linux-gnu"
+
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.smul.with.overflow.i64(i64, i64) #0
+
+declare i64 @overflow_fail(i64) local_unnamed_addr
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.ssub.with.overflow.i64(i64, i64) #0
+
+attributes #0 = { nounwind readnone }
+*** IR Dump After Dead Global Elimination ***; ModuleID = 'output/power.calc.ll'
+source_filename = "output/power.calc.ll"
+target triple = "x86_64-unknown-linux-gnu"
+
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.smul.with.overflow.i64(i64, i64) #0
+
+declare i64 @overflow_fail(i64) local_unnamed_addr
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.ssub.with.overflow.i64(i64, i64) #0
+
+attributes #0 = { nounwind readnone }
+*** IR Dump After Merge Duplicate Global Constants ***; ModuleID = 'output/power.calc.ll'
+source_filename = "output/power.calc.ll"
+target triple = "x86_64-unknown-linux-gnu"
+
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.smul.with.overflow.i64(i64, i64) #0
+
+declare i64 @overflow_fail(i64) local_unnamed_addr
+
+; Function Attrs: nounwind readnone
+declare { i64, i1 } @llvm.ssub.with.overflow.i64(i64, i64) #0
+
+attributes #0 = { nounwind readnone }
+*** IR Dump After Module Verifier ***
+define i64 @f(i64, i64, i64, i64, i64, i64) local_unnamed_addr {
+entry:
+  %ne3 = icmp eq i64 %1, 1
+  br i1 %ne3, label %whileExit, label %whileBody.preheader
+
+whileBody.preheader:                              ; preds = %entry
+  br label %whileBody
+
+whileBody:                                        ; preds = %whileBody.preheader, %whileEntry.backedge
+  %Mutable0.05 = phi i64 [ %7, %whileEntry.backedge ], [ %0, %whileBody.preheader ]
+  %Mutable1.04 = phi i64 [ %10, %whileEntry.backedge ], [ %1, %whileBody.preheader ]
+  %6 = tail call { i64, i1 } @llvm.smul.with.overflow.i64(i64 %Mutable0.05, i64 %0)
+  %7 = extractvalue { i64, i1 } %6, 0
+  %8 = extractvalue { i64, i1 } %6, 1
+  br i1 %8, label %then, label %else
+
+whileExit.loopexit:                               ; preds = %whileEntry.backedge
+  br label %whileExit
+
+whileExit:                                        ; preds = %whileExit.loopexit, %entry
+  %phiNode.lcssa = phi i64 [ 0, %entry ], [ %7, %whileExit.loopexit ]
+  ret i64 %phiNode.lcssa
+
+then:                                             ; preds = %whileBody
+  %calltrap = tail call i64 @overflow_fail(i64 120)
+  br label %else
+
+else:                                             ; preds = %then, %whileBody
+  %9 = tail call { i64, i1 } @llvm.ssub.with.overflow.i64(i64 %Mutable1.04, i64 1)
+  %10 = extractvalue { i64, i1 } %9, 0
+  %11 = extractvalue { i64, i1 } %9, 1
+  br i1 %11, label %then1, label %whileEntry.backedge
+
+then1:                                            ; preds = %else
+  %calltrap2 = tail call i64 @overflow_fail(i64 166)
+  br label %whileEntry.backedge
+
+whileEntry.backedge:                              ; preds = %then1, %else
+  %ne = icmp eq i64 %10, 1
+  br i1 %ne, label %whileExit.loopexit, label %whileBody
+}
